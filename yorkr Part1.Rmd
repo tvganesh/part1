@@ -1,0 +1,633 @@
+---
+title: "Introducing cricket package yorkr- When the willow missses the leather"
+author: "Tinniam V Ganesh"
+date: "March 22, 2016"
+output: html_document
+---
+
+
+
+```{r warnings=FALSE}
+library(yorkr)
+library(dplyr)
+library(ggplot2)
+library(yaml)
+rm(list=ls())
+setwd("C:/software/cricket-package/cricsheet/cleanup/devyorkr4")
+```
+
+### First things first
+*"We need to regard statistical intuition with proper suspicion and replace"*
+*"impression formation by computation wherever possible"*
+
+*"We are pattern seekers, believers in a cohorent world"*
+
+*"The hot hand is entirely in the eyes of the beholders, who are consistently"*
+*"too quick to perceive order and causality in randomeness. The hot hand is a"*
+*"massive and widespread cognitive illusion"*
+
+                       "Thinking, Fast and Slow - Daniel Kahneman"
+
+1. yorkr currently has a total 63 functions as of now. I have avoided abbreviating function names by dropping vowels as the resulting functions
+created would be very difficult to remember and use. So instead of naming 
+tmBmenPrtshpOppnAllMtches, I have used the longer form
+teamBatsmenPartnershipOppnAllmatches(). The longer form will be more intuitive
+
+2. There are 5 classes of function
+
+a. Team performances in a match
+b. Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)
+c. Team perfoamnce all matches against all Opposition
+teamBattingOppnallMatches,
+d.Individual performanbce batsmen 
+e. Individsual perfoemance ofd bowlers
+
+
+In this post I will  be looking into the 1st class of functions, namely
+the performances of opposing teams in a single match
+
+
+```{r}
+rm(list=ls())
+setwd("C:/software/cricket-package/cricsheet/cleanup/devyorkr4")
+```
+
+This function will convert a yaml file in the [format as specified in Cricsheet](http://cricsheet.org/format/) to dataframe. This will be saved as
+as RData file in the target directtoy. The name of the file wil be
+<team1>-<team2>-<date>.RData. This is seen below.
+
+```{r}
+convertYaml2RDataframe("./source/225171.yaml",".","./data")
+setwd("./data")
+dir()
+setwd("..")
+```
+
+This function will convert all yaml files from source directory to a dataframe and save it in the target directory with the names as mentioned above. Alteady saved and available at ithub
+```{r}
+convertAllYaml2RDataframes("./source","./data")
+```
+
+Incidentally I have already conbveryted all yaml files in the ODI directory of Cricsheet to dataframes and savced then as RData. Out of 1167 files 34 yaml files had format problems. The rest pof the yaml files ave already been converted to RData and are available for use. All the convertd RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData)
+
+You can download the the zip of the files and use it directly in the function as follows
+
+In this post I will be using the match from 5 random matches between 10 different teams. For this I will directly use the converted RData
+
+With the RData we can load the data in 2 ways 
+1) With getMatchDetails() using the 2 teams and the date on which the 
+match occured
+```{r}
+a <- getMatchDetails("Australia","India","2012-02-12",dir="./data")
+```
+
+or
+2) Directly load RData into your code. The match details will be loaded
+into a data frame called 'overs' which you can assign to a suitable name
+as below
+```{r}
+load("./data/Australia-India-2012-02-12.RData")
+aus_india <- overs
+load("./data/England-New Zealand-2007-01-30.RData")
+eng_nz <- overs
+load("./data/Pakistan-South Africa-2013-11-08.RData")
+pak_sa <- overs
+load("./data/Sri Lanka-West Indies-2011-02-06.RData")
+sl_wi<- overs
+load("./data/Bangladesh-Zimbabwe-2009-10-27.RData")
+ban_zim <- overs
+
+```
+
+
+#Matches from 2006
+# Only ODIs
+# Plot or display data frame. Plot by defau;lt
+```{r, echo=FALSE}
+a <- getMatchDetails("Australia","India","2012-02-12",dir="./data")
+```
+
+```{r}
+teamBowlingScorecardMatch(a,'England')
+```
+
+```{r}
+teamBatsmenPartnershipMatch(a,"Pakistan")
+teamBatsmenPartnershipMatch(a,"England",plot=TRUE)
+m <-teamBatsmenPartnershipMatch(a,"Pakistan",plot=FALSE)
+m
+```
+
+```{r}
+teamBatsmenVsBowlersMatch(a,'Pakistan',plot=TRUE)
+teamBowlingScorecardMatch(a,'England')
+teamBowlingWicketKindMatch(a,"England",plot=FALSE)
+teamBowlingWicketRunsMatch(a,"Pakistan",plot=FALSE)
+m <-teamBowlingWicketMatch(a,'Pakistan',plot=FALSE)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+teamBowlersVsBatsmenMatch(a,"Pakistan")
+teamBowlersVsBatsmenMatch(a,"England")
+m <- teamBowlersVsBatsmenMatch(a,"Pakistan",plot=FALSE)
+m
+```
+
+```{r}
+matchWormGraph(a,'England',"Pakistan")
+```
+
+```{r}
+matches <- getAllMatchesBetweenTeams("Australia","India",dir="../data")
+dim(matches)
+b <- getAllMatchesBetweenTeams("India","Australia",dir="../data",save=TRUE)
+dim(b)
+
+```
+
+
+
+
+
+```{r}
+setwd("C:/software/cricket-package/york-test/yorkrData/ODI/ODI-allmatches-between-two-teams")
+load("India-Australia-allMatches.RData")
+m<- teamBatsmenPartnershiOppnAllMatches(matches,'Australia',report="summary")
+m
+m <-teamBatsmenPartnershiOppnAllMatches(matches,'India',report="summary")
+m
+m <-teamBatsmenPartnershiOppnAllMatches(matches,'Australia',report="detailed")
+m[1:50,]
+```
+
+p
+```{r}
+teamBatsmenPartnershipOppnAllMatchesChart(matches,"India","Australia")
+teamBatsmenPartnershipOppnAllMatchesChart(matches,main="Australia",opposition="India")
+b <- teamBatsmenPartnershipOppnAllMatchesChart(matches,"India","Australia",plot=FALSE)
+b
+
+ 
+```
+
+```{r}
+teamBatsmenVsBowlersOppnAllMatches(matches,"India","Australia")
+teamBatsmenVsBowlersOppnAllMatches(matches,"Australia","India",top=3)
+n <- teamBatsmenVsBowlersOppnAllMatches(matches,"Australia","India",top=10,plot=FALSE)
+n
+```
+
+```{r}
+a <-teamBattingScorecardOppnAllMatches(matches,main="India",opposition="Australia")
+a
+teamBattingScorecardOppnAllMatches(matches,"Australia","India")
+```
+
+```{r}
+teamBowlingPerfOppnAllMatches(matches,"India","Australia")
+teamBowlingPerfOppnAllMatches(matches,main="Australia",opposition="India")
+```
+
+```{r}
+teamBowlersWicketsOppnAllMatches(matches,"India","Australia")
+teamBowlersWicketsOppnAllMatches(matches,"Australia","India",top=10)
+teamBowlersWicketsOppnAllMatches(matches,"India","Australia",plot=FALSE)
+```
+
+
+```{r}
+teamBowlersVsBatsmenOppnAllMatches(matches,'India',"Australia",top=5)
+teamBowlersVsBatsmenOppnAllMatches(matches,"Australia","India",top=3)
+teamBowlersVsBatsmenOppnAllMatches(matches,"Australia","India",plot=FALSE)
+```
+
+```{r}
+m <- teamBowlingPerfOppnAllMatches(matches,"India","Australia")
+m
+n <-teamBowlingPerfOppnAllMatches(matches,"Australia","India")
+n
+```
+
+
+```{r}
+teamBowlersWicketKindOppnAllMatches(matches,"India","Australia",plot=TRUE)
+m <- teamBowlersWicketKindOppnAllMatches(matches,"Australia","India",plot=FALSE)
+m
+teamBowlersWicketKindOppnAllMatches(matches,"Australia","India",plot=TRUE)
+```
+
+
+```{r}
+teamBowlersWicketRunsOppnAllMatches(matches,"India","Australia")
+m <-teamBowlersWicketRunsOppnAllMatches(matches,"Australia","India",plot=FALSE)
+m
+```
+
+
+```{r}
+ plotWinLossBetweenTeams('India',"Australia","../data")
+```
+
+
+```{r}
+matches <-getAllMatchesAllOpposition("India",dir="../data/",save=TRUE)
+dim(matches)
+```
+
+```{r}
+library(yorkr1)
+library(dplyr)
+library(ggplot2)
+rm(list=ls())
+setwd("C:/software/cricket-package/york-test/yorkrData/ODI/ODI-team-allmatches-allOppositions")
+load("allMatchesAllOpposition-India.RData")
+dim(matches)
+```
+
+Since all matches are of India against opposition when theTeam='India' the top Indian performers show up
+
+```{r}
+m <-teamBattingScorecardAllOppnAllMatches(matches,theTeam="India")
+m
+```
+
+Since all matches are of India against opposition when theTeam=England,Australia' then the  top batsman of the opposition against India show up
+```{r}
+m <-teamBattingScorecardAllOppnAllMatches(matches,theTeam="England")
+m
+m <-teamBattingScorecardAllOppnAllMatches(matches,theTeam="Pakistan")
+m
+```
+
+
+```{r}
+m <- teamBatsmenPartnershipAllOppnAllMatches(matches,theTeam='India')
+m
+m <- teamBatsmenPartnershipAllOppnAllMatches(matches,theTeam='India',report="detailed")
+head(m,50)
+```
+
+
+```{r}
+m <- teamBatsmenPartnershipAllOppnAllMatches(matches,theTeam='South Africa',report="summary")
+m
+m <- teamBatsmenPartnershipAllOppnAllMatches(matches,theTeam='Australia',report="detailed")
+head(m,30)
+```
+
+
+```{r}
+teamBatsmenPartnershipAllOppnAllMatchesPlot(matches,"India",main="India")
+```
+
+```{r}
+teamBatsmenPartnershipAllOppnAllMatchesPlot(matches,"Sri Lanka",main="India")
+```
+
+
+```{r}
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"India",rank=0)
+m
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"India",rank=1,dispRows=50)
+m
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"India",rank=2,dispRows=50)
+m
+```
+
+```{r}
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"South Africa",rank=0)
+m
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"Australia",rank=0)
+m
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"Pakistan",rank=0)
+m
+m <-teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"England",rank=1)
+m
+```
+
+```{r}
+d <- teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"India",rank=1,dispRows=50)
+d
+teamBatsmenVsBowlersAllOppnAllMatchesPlot(d)
+e <- teamBatsmenVsBowlersAllOppnAllMatchesPlot(d,plot=FALSE)
+e
+d <- teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"India",rank=2,dispRows=50)
+teamBatsmenVsBowlersAllOppnAllMatchesPlot(d)
+
+```
+
+
+```{r}
+d <- teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"Australia",rank=1,dispRows=50)
+teamBatsmenVsBowlersAllOppnAllMatchesPlot(d)
+
+d <- teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"West Indies",rank=1,dispRows=50)
+teamBatsmenVsBowlersAllOppnAllMatchesPlot(d)
+
+d <- teamBatsmenVsBowlersAllOppnAllMatchesRept(matches,"South Africa",rank=1,dispRows=50)
+teamBatsmenVsBowlersAllOppnAllMatchesPlot(d)
+```
+
+```{r}
+teamBowlingScorecardAllOppnAllMatchesMain(matches,"India")
+```
+
+```{r}
+teamBowlingScorecardAllOppnAllMatches(matches,'India')
+```
+
+
+```{r}
+teamBowlingScorecardAllOppnAllMatches(matches,'Australia')
+teamBowlingScorecardAllOppnAllMatches(matches,'South Africa')
+teamBowlingScorecardAllOppnAllMatches(matches,'England')
+```
+
+```{r}
+teamBowlersVsBatsmenAllOppnAllMatchesMain(matches,theTeam="India",rank=0)
+m <-teamBowlersVsBatsmenAllOppnAllMatchesMain(matches,theTeam="India",rank=1)
+m
+
+m <-teamBowlersVsBatsmenAllOppnAllMatchesMain(matches,theTeam="India",rank=2)
+m
+
+m <-teamBowlersVsBatsmenAllOppnAllMatchesMain(matches,theTeam="India",rank=3)
+m
+```
+
+
+
+```{r}
+teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,theTeam="India",rank=0)
+a <- teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,theTeam="India",rank=1)
+a
+```
+
+```{r}
+teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,"Sri Lanka",rank=0)
+teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,"England",rank=0)
+teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,"England",rank=1)
+teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,"Australia",rank=0)
+teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,"Australia",rank=1)
+```
+
+
+```{r}
+df <- teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,theTeam="India",rank=1)
+teamBowlersVsBatsmenAllOppnAllMatchesPlot(df,"India","India")
+```
+
+```{r}
+df <- teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,theTeam="England",rank=1)
+teamBowlersVsBatsmenAllOppnAllMatchesPlot(df,"India","England")
+```
+
+```{r}
+df <- teamBowlersVsBatsmenAllOppnAllMatchesRept(matches,theTeam="Australia",rank=1)
+teamBowlersVsBatsmenAllOppnAllMatchesPlot(df,"India","Australia")
+```
+
+```{r}
+teamBowlingWicketKindAllOppnAllMatches(matches,t1="India",t2="All")
+m <-teamBowlingWicketKindAllOppnAllMatches(matches,t1="India",t2="All",plot=FALSE)
+m
+```
+
+```{r}
+teamBowlingWicketKindAllOppnAllMatches(matches,t1="India",t2="Bangladesh")
+teamBowlingWicketKindAllOppnAllMatches(matches,t1="India",t2="South Africa")
+teamBowlingWicketKindAllOppnAllMatches(matches,t1="India",t2="Pakistan")
+m <-teamBowlingWicketKindAllOppnAllMatches(matches,t1="India",t2="Australia",plot=FALSE)
+m
+```
+
+
+```{r}
+teamBowlingWicketRunsAllOppnAllMatches(matches,t1="India",t2="All",plot=TRUE)
+m <-teamBowlingWicketRunsAllOppnAllMatches(matches,t1="India",t2="All",plot=FALSE)
+m
+```
+
+```{r}
+teamBowlingWicketRunsAllOppnAllMatches(matches,t1="India",t2="Zimbabwe")
+m <-teamBowlingWicketRunsAllOppnAllMatches(matches,t1="India",t2="Australia",plot=FALSE)
+m
+teamBowlingWicketRunsAllOppnAllMatches(matches,t1="India",t2="New Zealand")
+```
+
+
+
+
+```{r warnings=FALSE}
+library(yorkr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+library(rpart.plot)
+rm(list=ls())
+setwd("C:/software/cricket-package/cricsheet/cleanup/devyorkr4")
+```
+
+```{r}
+a <- getTeamBattingDetails("India",dir="../data", save=TRUE)
+dim(a)
+b <- getTeamBattingDetails("South Africa",dir="../data",save=TRUE)
+dim(b)
+```
+
+```{r}
+kohli <- getBatsmanDetails(team="India",name="Kohli",dir=".")
+dhoni <- getBatsmanDetails(team="India",name="Dhoni")
+devilliers <-  getBatsmanDetails(team="South Africa",name="Villiers",dir=".")
+```
+
+```{r}
+knitr::kable(head(kohli))
+```
+
+
+```{r}
+p1 <-batsmanRunsVsDeliveries(kohli,"Kohli")
+p2 <- batsmanRunsVsDeliveries(dhoni, "Dhoni")
+p3 <- batsmanRunsVsDeliveries(devilliers,"De Villiers")
+grid.arrange(p1,p2,p3, ncol=3)
+```
+
+```{r}
+kohli46 <- select(kohli,batsman,ballsPlayed,fours,sixes,runs)
+p1 <- batsmanFoursSixes(kohli46,"Kohli")
+dhoni46 <- select(dhoni,batsman,ballsPlayed,fours,sixes,runs)
+p2 <- batsmanFoursSixes(dhoni46,"Dhoni")
+devilliers46 <- select(devilliers,batsman,ballsPlayed,fours,sixes,runs)
+p3 <- batsmanFoursSixes(devilliers46, "De Villiers")
+grid.arrange(p1,p2,p3, ncol=3)
+```
+
+```{r}
+p1 <-batsmanDismissals(kohli,"Kohli")
+p2 <- batsmanDismissals(dhoni, "Dhoni")
+p3 <- batsmanDismissals(devilliers, "De Villiers")
+grid.arrange(p1,p2,p3, ncol=3)
+```
+
+
+```{r}
+p1 <-batsmanRunsVsStrikeRate(kohli,"Kohli")
+p2 <- batsmanRunsVsStrikeRate(dhoni, "Dhoni")
+p3 <- batsmanRunsVsStrikeRate(devilliers, "De Villiers")
+grid.arrange(p1,p2,p3, ncol=3)
+```
+
+```{r}
+p1 <-batsmanMovingAverage(kohli,"Kohli")
+p2 <- batsmanMovingAverage(dhoni, "Dhoni")
+p3 <- batsmanMovingAverage(devilliers, "De Villiers")
+grid.arrange(p1,p2,p3, ncol=3)
+```
+
+```{r}
+batsmanRunsAgainstOpposition(kohli,"Kohli")
+```
+
+```{r}
+batsmanRunsAgainstOpposition(dhoni, "Dhoni")
+```
+
+```{r}
+batsmanRunsAgainstOpposition(devilliers, "De Villiers")
+```
+
+
+
+```{r}
+batsmanRunsVenue(kohli,"Kohli")
+```
+
+```{r}
+batsmanRunsVenue(dhoni, "Dhoni")
+```
+
+```{r}
+batsmanRunsVenue(devilliers, "De Villiers")
+```
+
+
+```{r}
+par(mfrow=c(1,3))
+par(mar=c(4,4,2,2))
+batsmanRunsPredict(kohli,"Kohli")
+batsmanRunsPredict(dhoni, "Dhoni")
+batsmanRunsPredict(devilliers, "De Villiers")
+```
+
+
+```{r}
+c <- getTeamBowlingDetails("India",dir="../data",save=TRUE)
+dim(c)
+d <- getTeamBowlingDetails("Australia",dir="../data",save=TRUE)
+dim(d)
+```
+
+```{r}
+jadeja <- getBowlerWicketDetails(team="India",name="Jadeja",dir=".")
+harbhajan <- getBowlerWicketDetails(team="India",name="Harbhajan")
+ashwin <- getBowlerWicketDetails(team="India",name="Ashwin",dir=".")
+johnson <-  getBowlerWicketDetails(team="Australia",name="Johnson")
+```
+
+```{r}
+knitr::kable(head(jadeja))
+```
+
+
+```{r}
+p1<-bowlerMeanEconomyRate(jadeja,"RA Jadeja")
+p2<-bowlerMeanEconomyRate(harbhajan, "Harbhajan")
+p3<-bowlerMeanEconomyRate(ashwin, "Ashwin")
+p4<-bowlerMeanEconomyRate(johnson, "MG Johnson")
+grid.arrange(p1,p2,p3,p4, ncol=2)
+```
+
+
+```{r}
+p1<-bowlerMeanRunsConceded(jadeja,"RA Jadeja")
+p2<-bowlerMeanRunsConceded(harbhajan, "Harbhajan")
+p3<-bowlerMeanRunsConceded(ashwin, "Ashwin")
+p4<-bowlerMeanRunsConceded(johnson, "MG Johnson")
+grid.arrange(p1,p2,p3,p4, ncol=2)
+```
+
+```{r}
+p1<-bowlerMovingAverage(jadeja,"RA Jadeja")
+p2<-bowlerMovingAverage(harbhajan, "Harbhajan")
+p3<-bowlerMovingAverage(ashwin, "Ashwin")
+p4<-bowlerMovingAverage(johnson, "MG Johnson")
+grid.arrange(p1,p2,p3,p4, ncol=2)
+```
+
+```{r}
+p1<-bowlerWicketPlot(jadeja,"RA Jadeja")
+p2<-bowlerWicketPlot(harbhajan, "Harbhajan")
+p3<-bowlerWicketPlot(ashwin, "Ashwin")
+p4<-bowlerWicketPlot(johnson, "MG Johnson")
+grid.arrange(p1,p2,p3,p4, ncol=2)
+```
+
+```{r}
+bowlerWicketsAgainstOpposition(jadeja,"RA Jadeja")
+```
+
+```{r}
+bowlerWicketsAgainstOpposition(harbhajan, "Harbhajan")
+```
+
+```{r}
+bowlerWicketsAgainstOpposition(ashwin, "Ashwin")
+```
+
+```{r}
+bowlerWicketsAgainstOpposition(johnson, "MG Johnson")
+```
+
+```{r}
+bowlerWicketsVenue(jadeja,"RA Jadeja")
+```
+
+```{r}
+bowlerWicketsVenue(harbhajan, "Harbhajan")
+```
+
+```{r}
+bowlerWicketsVenue(ashwin, "Ashwin")
+```
+
+```{r}
+bowlerWicketsVenue(johnson, "MG Johnson")
+```
+
+
+```{r}
+jadeja1 <- getDeliveryWickets(team="India",dir="../data",name="Jadeja",save=FALSE)
+harbhajan1 <- getDeliveryWickets(team="India",dir="../data",name="Harbhajan",save=FALSE)
+ashwin1 <- getDeliveryWickets(team="India",dir="../data",name="Ashwin",save=FALSE)
+johnson1 <- getDeliveryWickets(team="Australia",dir="../data",name="MG Johnson",save=FALSE)
+```
+
+
+```{r}
+par(mfrow=c(1,2))
+par(mar=c(4,4,2,2))
+bowlerWktsPredict(jadeja1,"RA Jadeja")
+bowlerWktsPredict(harbhajan1,"Harbhajan Singh")
+```
+
+```{r}
+par(mfrow=c(1,2))
+par(mar=c(4,4,2,2))
+bowlerWktsPredict(ashwin1,"Ravichander Ashwin")
+bowlerWktsPredict(johnson1,"MG Johnson")
+```
+
