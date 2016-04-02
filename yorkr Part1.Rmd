@@ -16,24 +16,25 @@ output: html_document
 
                        "Thinking, Fast and Slow - Daniel Kahneman"
 
-*Yorker (noun) :A yorker is a bowling delivery in cricket, that pitches at or around the batsman;s toes. Also known as 'toe crusher'*
 
 ##**Introduction**
-My package 'yorkr' is now available on CRAN. This package is based on data from [Cricsheet](http://cricsheet.org/). Cricsheet has the data of ODIs, Test, Twenty20 and IPL matches as yaml files. The yorkr package provides functions to convert the yaml files to more easily R consumable dataframe. In fact all ODI matches have already been converted and are available for use at [yorkrData](https://github.com/tvganesh/yorkrData). More details below.
+*Yorker (noun) :A yorker is a bowling delivery in cricket, that pitches at or around the batsman;s toes. Also known as 'toe crusher'*
+My package 'yorkr' is now available on CRAN. This package is based on data from [Cricsheet](http://cricsheet.org/). Cricsheet has the data of ODIs, Test, Twenty20 and IPL matches as yaml files. The yorkr package provides functions to convert the yaml files to more easily R consumable entities, namely dataframes. In fact all ODI matches have already been converted and are available for use at [yorkrData](https://github.com/tvganesh/yorkrData). More details below.
 
 ###1. First things first
-1. yorkr currently has a total 63 functions as of now. I have intentionally avoided abbreviating function names by dropping vowels, as is usually done because the resulting abbreviated names created would be very difficult to remember and use. So instead of naming *tmBmenPrtshpOppnAllMtches()*, I have used the longer form *teamBatsmenPartnershipOppnAllmatches()*. The longer form will be more intuitive. Moreover RStudio prompts the the different functions which have the same prefix.
+1. yorkr currently has a total 63 functions as of now. I have intentionally avoided abbreviating function names by dropping vowels, as is the usual practice in coding, because the resulting abbreviated names created would be very difficult to remember, and use. So instead of naming a function as  *tmBmenPrtshpOppnAllMtches()*, I have used the longer form for e.g. *teamBatsmenPartnershipOppnAllmatches()*, which is much clearer. 
 
-2. There are 4 classes of function
+The longer form will be more intuitive. Moreover RStudio prompts the the different functions which have the same prefix and one does not need to type in the entire function name.
+
+2. The package yorkr has 4 classes of functions
 
 * Class 1- Team performances in a match
-* Class 2- Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)
-* Class 3- Team performance in all matches against all Opposition (India vs All,Pakistan vs All etc)
+* Class 2- Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or all matches of England vs Pakistan etc.)
+* Class 3- Team performance in all matches against all Opposition (India vs All,Pakistan vs All etc.)
 * Class 4- Individual performances of batsmen and bowlers
 
 
-
-In this post I will  be looking into the 1st class of functions, namely
+In this post I will  be looking into Class 1 functions, namely
 the performances of opposing teams in a single match
 
 The list of functions are
@@ -50,17 +51,17 @@ i. teamBowlersVsBatsmenMatch()
 j. matchWormGraph()
 
 ###2. Install the package from CRAN
-```{r}
+```{r message=FALSE,warning=FALSE}
 install.packages("yorkr_0.0.2.tar.gz",repos = NULL, type="source")
 library(yorkr)
 rm(list=ls())
 ```
 
+*Note: In the above statement I install from the tarball (yorkr_0.0.2.tar.gz) since the package has yet to propagate to all servers. You should be able to directly install from CRAN using install.packages("yorkr) in about 24 hours time.
 
 ###3. Convert and save yaml file to dataframe
 This function will convert a yaml file in the [format as specified in Cricsheet](http://cricsheet.org/format/) to dataframe. This will be saved as
-as RData file in the target directtoy. The name of the file wil be
-<team1>-<team2>-<date>.RData. This is seen below.
+as RData file in the target directory. The name of the file wil  have the following format <team1>-<team2>-<date>.RData. This is seen below.
 
 ```{r}
 convertYaml2RDataframe("225171.yaml","./source","./data")
@@ -70,19 +71,19 @@ setwd("..")
 ```
 
 ###4. Convert and save all yaml files to dataframes
-This function will convert all yaml files from source directory to a dataframe and save it in the target directory with the names as mentioned above. Alteady saved and available at ithub
+This function will convert all yaml files from a source directory to dataframes and save it in the target directory with the names as mentioned above. 
 ```{r}
 convertAllYaml2RDataframes("./source","./data")
 ```
 
 ###5. yorkrData - A Github repositiory
-Cricsheet has ODI matches from 2006. There are a total of 1167 ODI matches(files) out of which 34 yaml files had format problems. Incidentally I have already converted all yaml files in the ODI directory of Cricsheet to dataframes and saved then as RData.  The rest of the yaml files ave already been converted to RData and are available for use. . All the converted RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData) under the folder [ODI-matches](https://github.com/tvganesh/yorkrData/tree/master/ODI/ODI-matches)
+Cricsheet has ODI matches from 2006. There are a total of 1167 ODI matches(files) out of which 34 yaml files had format problems and were skipped. Incidentally I have already converted the 1133 yaml files in the ODI directory of Cricsheet to dataframes and saved then as RData.  The rest of the yaml files ave already been converted to RData and are available for use. . All the converted RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData) under the folder [ODI-matches](https://github.com/tvganesh/yorkrData/tree/master/ODI/ODI-matches)
 
 You can download the the zip of the files and use it directly in the functions as follows
 
-*Note 1: The package in its current form is based on 50 over ODI macthes. The package will be enhanced to handle Tests, Twenty20,IPL  matches later*
+**Note 1**: *The package in its current form is based on 50 over ODI macthes. The package will be enhanced to handle Tests, Twenty20,IPL  matches later*
 
-*Note 2: The link to the converted data framesh have been provided above. The dataframes are around 600 rows x 25 columns. In this post I have created 10 functions that analyze team performances in a match. However you are free to slice and dice the dataframe in any way you like. If you do come up with interesting analyses please do attribute the source of the data to Cricsheet, and my package yorkr and my blog. Also do please do send me a note. It will be much appreciated.* 
+**Note 2**: *The link to the converted data frames have been provided above. The dataframes are around 600 rows x 25 columns. In this post I have created 10 functions that analyze team performances in a match. However you are free to slice and dice the dataframe in any way you like. If you do come up with interesting analyses, please do attribute the source of the data to Cricsheet, and my package yorkr and my blog. I would appreciate it if you could  send me a note. .* 
 
 
 ###6. Load the match data as dataframes
@@ -91,7 +92,7 @@ As mentioned above in this post I will using the functions from Class 1. For thi
 
 With the RData we can load the data in 2 ways 
 
-#### With getMatchDetails()
+####A. With getMatchDetails()
 1) With getMatchDetails() using the 2 teams and the date on which the 
 match occured
 ```{r}
@@ -99,11 +100,10 @@ aus_ind <- getMatchDetails("Australia","India","2012-02-12",dir="./data")
 ```
 
 or
-2) Directly load RData into your code. The match details will be loaded
-into a dataframe called **'overs**' which you can assign to a suitable name
-as below
+####B.Directly load RData into your code. 
+The match details will be loaded into a dataframe called **'overs**' which you can assign to a suitable name as below
 
-The matches randomly selected are
+The randomly selected matches are
 
 * Australia vs India - 2012-02-12, Adelaide
 * England vs New Zealand - 2007-01-30, Perth
@@ -128,7 +128,7 @@ ban_zim <- overs
 
 
 ###7. Team batting scorecard
-Compute and display the batting scorecard of the teams in the match
+Compute and display the batting scorecard of the teams in the match. The top batsmen in are G Gambhir(Ind), PJ Forrest(Aus), Q De Kock(SA) and KC Sangakkara(SL)
 ```{r}
 teamBattingScorecardMatch(aus_ind,'India')
 teamBattingScorecardMatch(aus_ind,'Australia')
@@ -141,7 +141,7 @@ teamBattingScorecardMatch(sl_wi,'Sri Lanka')
 The functions below plot the team batting partnetship in the match
 **Note**: Many of the plots include an additional parameters plot which is either TRUE or FALSE. The default value is plot=TRUE. When plot=TRUE the plot will be displayed. When plot=FALSE the data frame will be returned to the user. The user can use this to create an interactive chary using one of th epackages like rcharts, ggvis,googleVis or plotly. 
 
-```{r batsmenPartnership}
+```{r batsmenPartnership,fig.width=10}
 teamBatsmenPartnershipMatch(pak_sa,"Pakistan")
 teamBatsmenPartnershipMatch(eng_nz,"New Zealand",plot=TRUE)
 m <-teamBatsmenPartnershipMatch(ban_zim,"Bangladesh",plot=FALSE)
@@ -151,7 +151,7 @@ teamBatsmenPartnershipMatch(aus_ind,"India",plot=TRUE)
 
 ###9. Batsmen vs Bowler 
 The function below computes and plots the performances of the batsmen vs the bowlers. As before the plot parameter can be set to TRUE or FALSE. By default it is plot=TRUE
-```{r batsmenVsBowler}
+```{r batsmenVsBowler,fig.width=10}
 teamBatsmenVsBowlersMatch(pak_sa,'Pakistan',plot=TRUE)
 teamBatsmenVsBowlersMatch(aus_ind,'Australia',plot=TRUE)
 
@@ -171,7 +171,7 @@ teamBowlingScorecardMatch(aus_ind,'Australia')
 
 ###11. Wicket Kind
 The plots below provide the bowling kind of wicket taken by the bowler (caught, bowled, lbw etc.)
-```{r bowlingWicketKind}
+```{r bowlingWicketKind,fig.width=10}
 teamBowlingWicketKindMatch(aus_ind,"India")
 teamBowlingWicketKindMatch(aus_ind,"Australia")
 teamBowlingWicketKindMatch(pak_sa,"South Africa")
@@ -181,7 +181,7 @@ m
 
 ###12. wicket vs Runs conceded
 The plots below provide the wickets taken and the runs conceded by the bowler in the match
-```{r wicketRuns}
+```{r wicketRuns,fig.width=10}
 teamBowlingWicketRunsMatch(pak_sa,"Pakistan")
 teamBowlingWicketRunsMatch(aus_ind,"Australia")
 m <-teamBowlingWicketRunsMatch(sl_wi,"West Indies",plot=FALSE)
@@ -191,7 +191,7 @@ m
 ###13. Wickets taken by bowler
 The plots provide the wickets taken by the bowler
 
-```{r bowlingWickets}
+```{r bowlingWickets,fig.width=10}
 m <-teamBowlingWicketMatch(eng_nz,'England',plot=FALSE)
 m
 teamBowlingWicketMatch(sl_wi,"Sri Lanka")
@@ -202,7 +202,7 @@ teamBowlingWicketMatch(eng_nz,"New Zealan")
 ###14. Bowler Vs Batsmen
 The functions compute and display how the different bowlers of the country performed against the batting opposition.
 
-```{r bowlerVsBatsmen}
+```{r bowlerVsBatsmen,fig.width=10}
 teamBowlersVsBatsmenMatch(ban_zim,"Bangladesh")
 teamBowlersVsBatsmenMatch(aus_ind,"India")
 teamBowlersVsBatsmenMatch(eng_nz,"England")
@@ -213,7 +213,7 @@ m
 
 ###15. Match worm graph
 The plots below provide the match worm graph for the matches
-```{r matchWorm}
+```{r matchWorm,fig.width=10}
 matchWormGraph(aus_ind,'Australia',"India")
 matchWormGraph(sl_wi,'Sri Lanka',"West Indies")
 
