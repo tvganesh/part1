@@ -141,7 +141,7 @@ teamBattingScorecardMatch(sl_wi,'Sri Lanka')
 The functions below plot the team batting partnetship in the match
 **Note**: Many of the plots include an additional parameters plot which is either TRUE or FALSE. The default value is plot=TRUE. When plot=TRUE the plot will be displayed. When plot=FALSE the data frame will be returned to the user. The user can use this to create an interactive chary using one of th epackages like rcharts, ggvis,googleVis or plotly. 
 
-```{r batsmenPartnership,fig.width=10}
+```{r batsmenPartnership,cache=TRUE,fig.width=10}
 teamBatsmenPartnershipMatch(pak_sa,"Pakistan")
 teamBatsmenPartnershipMatch(eng_nz,"New Zealand",plot=TRUE)
 m <-teamBatsmenPartnershipMatch(ban_zim,"Bangladesh",plot=FALSE)
@@ -151,7 +151,7 @@ teamBatsmenPartnershipMatch(aus_ind,"India",plot=TRUE)
 
 ###9. Batsmen vs Bowler 
 The function below computes and plots the performances of the batsmen vs the bowlers. As before the plot parameter can be set to TRUE or FALSE. By default it is plot=TRUE
-```{r batsmenVsBowler,fig.width=10}
+```{r batsmenVsBowler,cache=TRUE,fig.width=10}
 teamBatsmenVsBowlersMatch(pak_sa,'Pakistan',plot=TRUE)
 teamBatsmenVsBowlersMatch(aus_ind,'Australia',plot=TRUE)
 
@@ -171,7 +171,7 @@ teamBowlingScorecardMatch(aus_ind,'Australia')
 
 ###11. Wicket Kind
 The plots below provide the bowling kind of wicket taken by the bowler (caught, bowled, lbw etc.)
-```{r bowlingWicketKind,fig.width=10}
+```{r bowlingWicketKind,cache=TRUE,fig.width=10}
 teamBowlingWicketKindMatch(aus_ind,"India")
 teamBowlingWicketKindMatch(aus_ind,"Australia")
 teamBowlingWicketKindMatch(pak_sa,"South Africa")
@@ -181,7 +181,7 @@ m
 
 ###12. wicket vs Runs conceded
 The plots below provide the wickets taken and the runs conceded by the bowler in the match
-```{r wicketRuns,fig.width=10}
+```{r wicketRuns,cache=TRUE,fig.width=10}
 teamBowlingWicketRunsMatch(pak_sa,"Pakistan")
 teamBowlingWicketRunsMatch(aus_ind,"Australia")
 m <-teamBowlingWicketRunsMatch(sl_wi,"West Indies",plot=FALSE)
@@ -191,7 +191,7 @@ m
 ###13. Wickets taken by bowler
 The plots provide the wickets taken by the bowler
 
-```{r bowlingWickets,fig.width=10}
+```{r bowlingWickets,cache=TRUE,fig.width=10}
 m <-teamBowlingWicketMatch(eng_nz,'England',plot=FALSE)
 m
 teamBowlingWicketMatch(sl_wi,"Sri Lanka")
@@ -202,7 +202,7 @@ teamBowlingWicketMatch(eng_nz,"New Zealan")
 ###14. Bowler Vs Batsmen
 The functions compute and display how the different bowlers of the country performed against the batting opposition.
 
-```{r bowlerVsBatsmen,fig.width=10}
+```{r bowlerVsBatsmen,cache=TRUE,fig.width=10}
 teamBowlersVsBatsmenMatch(ban_zim,"Bangladesh")
 teamBowlersVsBatsmenMatch(aus_ind,"India")
 teamBowlersVsBatsmenMatch(eng_nz,"England")
@@ -213,10 +213,26 @@ m
 
 ###15. Match worm graph
 The plots below provide the match worm graph for the matches
-```{r matchWorm,fig.width=10}
+```{r matchWorm,cache=TRUE,fig.width=10}
 matchWormGraph(aus_ind,'Australia',"India")
 matchWormGraph(sl_wi,'Sri Lanka',"West Indies")
 
 ```
 
-`
+
+##Conclusion
+This post included all functions between 2 opposing countries from the package yorkr.As mentioned above the yaml match files have been already converted to dataframes and are available for download from Github. Go ahead and give it a try
+
+
+**To be continued. Watch this space!**
+
+You may also like 
+
+1. [Introducing cricketr! : An R package to analyze performances of cricketers](https://gigadom.wordpress.com/2015/07/04/introducing-cricketr-a-r-package-to-analyze-performances-of-cricketers/)
+2. [Cricket analytics with cricketr in paperback and Kindle versions](https://gigadom.wordpress.com/2016/02/05/cricket-analytics-with-cricketr-in-paperback-and-kindle-versions/)
+3. [What's up Watson? Using IBM Watson's QAAPI with Bluemix, NodeExpress](https://gigadom.wordpress.com/2014/10/11/whats-up-watson-using-ibm-watsons-qaapi-with-bluemix-nodeexpress-part-1/)
+4. [Natural language processing: What would Shakespeare say?](https://gigadom.wordpress.com/2015/10/02/natural-language-processing-what-would-shakespeare-say/)
+5. [Experiment with deblurring using OpenCV](https://gigadom.wordpress.com/2011/11/09/experiments-with-deblurring-using-opencv/)
+6. [A method for optimal bandwidth usage by auctioning available bandwidth using the OpenFlow protocol](https://gigadom.wordpress.com/2013/02/05/a-method-for-optimal-bandwidth-usage-by-auctioning-available-bandwidth-using-the-openflow-protocol/)
+7. [My TEDx talk on the "Internet of Things"](https://gigadom.wordpress.com/2013/06/20/my-tedx-talk-on-the-internet-of-things/)
+8. [Presentation on Wireless Technologies - Part 1](https://gigadom.wordpress.com/2013/07/24/presentation-on-wireless-technologies-part-1/)
