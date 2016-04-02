@@ -5,6 +5,7 @@ date: "March 22, 2016"
 output: html_document
 ---
 
+
 *"We need to regard statistical intuition with proper suspicion and replace impression formation by computation wherever possible"*
 
 *"We are pattern seekers, believers in a coherent world"*
@@ -18,22 +19,23 @@ output: html_document
 *Yorker (noun) :A yorker is a bowling delivery in cricket, that pitches at or around the batsman;s toes. Also known as 'toe crusher'*
 
 ##**Introduction**
-My package 'yorkr' is now available on CRAN. This package is based on data from [Cricsheet](http://cricsheet.org/). Cricsheet has the data of ODIs, Test, Twenty20 and IPL matches as yaml files. The yourkr package provides functions to convert the yaml files to more easily R consumable dataframe. In fact all ODI matches have already been converted and are available for use at [yorkrData](https://github.com/tvganesh/yorkrData). More details below.
+My package 'yorkr' is now available on CRAN. This package is based on data from [Cricsheet](http://cricsheet.org/). Cricsheet has the data of ODIs, Test, Twenty20 and IPL matches as yaml files. The yorkr package provides functions to convert the yaml files to more easily R consumable dataframe. In fact all ODI matches have already been converted and are available for use at [yorkrData](https://github.com/tvganesh/yorkrData). More details below.
 
-### First things first
+###1. First things first
 1. yorkr currently has a total 63 functions as of now. I have intentionally avoided abbreviating function names by dropping vowels, as is usually done because the resulting abbreviated names created would be very difficult to remember and use. So instead of naming *tmBmenPrtshpOppnAllMtches()*, I have used the longer form *teamBatsmenPartnershipOppnAllmatches()*. The longer form will be more intuitive. Moreover RStudio prompts the the different functions which have the same prefix.
 
 2. There are 4 classes of function
 
-a. Team performances in a match
-b. Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)
-c. Team perfoamnce all matches against all Opposition
-d.Individual performance of batsmen or bowlers
+Class 1- Team performances in a match
+Class 2- Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)
+Class 3- Team performance in all matches against all Opposition (India vs All,Pakistan vs All etc)
+Class 4- Individual performances of batsmen and bowlers
 
 
 
 In this post I will  be looking into the 1st class of functions, namely
 the performances of opposing teams in a single match
+
 The list of functions are
 
 a. teamBattingScorecardMatch()
@@ -47,6 +49,7 @@ h. teamBowlingWicketMatch()
 i. teamBowlersVsBatsmenMatch()
 j. matchWormGraph()
 
+###2. Install the package from CRAN
 ```{r}
 install.packages("yorkr_0.0.2.tar.gz",repos = NULL, type="source")
 library(yorkr)
@@ -54,6 +57,7 @@ rm(list=ls())
 ```
 
 
+###3. Convert and save yaml file to dataframe
 This function will convert a yaml file in the [format as specified in Cricsheet](http://cricsheet.org/format/) to dataframe. This will be saved as
 as RData file in the target directtoy. The name of the file wil be
 <team1>-<team2>-<date>.RData. This is seen below.
@@ -65,31 +69,36 @@ dir()
 setwd("..")
 ```
 
+###4. Convert and save all yaml files to dataframes
 This function will convert all yaml files from source directory to a dataframe and save it in the target directory with the names as mentioned above. Alteady saved and available at ithub
 ```{r}
 convertAllYaml2RDataframes("./source","./data")
 ```
 
-Incidentally I have already conbveryted all yaml files in the ODI directory of Cricsheet to dataframes and savced then as RData. Out of 1167 files 34 yaml files had format problems. The rest pof the yaml files ave already been converted to RData and are available for use. All the converted RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData)
+###5 yorkrData - A Github repositiory
+Incidentally I have already converted all yaml files in the ODI directory of Cricsheet to dataframes and savced then as RData. Out of 1167 ODI files 34 yaml files had format problems. The rest of the yaml files ave already been converted to RData and are available for use. Cricsheet has ODI matches from 2006. All the converted RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData) under the folder [ODI-matches](https://github.com/tvganesh/yorkrData/tree/master/ODI/ODI-matches)
 
-You can download the the zip of the files and use it directly in the function as follows
+You can download the the zip of the files and use it directly in the functions as follows
 
-*Note 1: The package in its current form is based on 50 over ODI macthes. The package will be enhanced to handle Twenty20 matches later*
+*Note 1: The package in its current form is based on 50 over ODI macthes. The package will be enhanced to handle Tests, Twenty20,IPL  matches later*
 
 *Note 2: The link to the converted data framesh have been provided above. The dataframes are around 600 rows x 25 columns. In this post I have created 10 functions that analyze team performances in a match. However you are free to slice and dice the dataframe in any way you like. If you do come up with interesting analyses please do attribute the source of the data to Cricsheet, and my package yorkr and my blog. Also do please do send me a note. It will be much appreciated.* 
 
-In this post I will using the functions from Class 1. For this post  I will be using the match from 5 random matches between 10 different teams. For this I will directly use the converted RData rather than getting the data through the getMatchDetails()
+
+###6 Load the match data as dataframes
+As mentioned above in this post I will using the functions from Class 1. For this post  I will be using the match data  from 5 random matches between 10 different opposing teams/countries. For this I will directly use the converted RData files  rather than getting the data through the getMatchDetails()
 
 With the RData we can load the data in 2 ways 
+
 1) With getMatchDetails() using the 2 teams and the date on which the 
 match occured
 ```{r}
-a <- getMatchDetails("Australia","India","2012-02-12",dir="./data")
+aus_ind <- getMatchDetails("Australia","India","2012-02-12",dir="./data")
 ```
 
 or
 2) Directly load RData into your code. The match details will be loaded
-into a data frame called 'overs' which you can assign to a suitable name
+into a dataframe called **'overs**' which you can assign to a suitable name
 as below
 ```{r}
 load("./data/Australia-India-2012-02-12.RData")
@@ -106,7 +115,7 @@ ban_zim <- overs
 ```
 
 
-#Matches from 2006
+
 # Only ODIs
 # Plot or display data frame. Plot by defau;lt
 ```{r, echo=FALSE}
