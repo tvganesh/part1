@@ -116,24 +116,23 @@ $(document).ready(function () {
 </div>
 
 
-<p><em>“We need to regard statistical intuition with proper suspicion and replace”</em> <em>“impression formation by computation wherever possible”</em></p>
-<p><em>“We are pattern seekers, believers in a cohorent world”</em></p>
+<p><em>“We need to regard statistical intuition with proper suspicion and replace impression formation by computation wherever possible”</em></p>
+<p><em>“We are pattern seekers, believers in a coherent world”</em></p>
 <p><em>“The hot hand is entirely in the eyes of the beholders, who are consistently”</em> <em>“too quick to perceive order and causality in randomeness. The hot hand is a”</em> <em>“massive and widespread cognitive illusion”</em></p>
 <pre><code>                   &quot;Thinking, Fast and Slow - Daniel Kahneman&quot;</code></pre>
 <p><em>Yorker (noun) :A yorker is a bowling delivery in cricket, that pitches at or around the batsman;s toes. Also known as ‘toe crusher’</em></p>
-<p><strong>##Introduction</strong> My package ‘yorkr’ is now available on CRAN. This package is based on data from <a href="http://cricsheet.org/">Cricsheet</a>. Cricsheet has the data of ODIs, Test, Twenty20 and IPL matches as yaml files. The yourkr package provides functions to convert the yaml files to more easily R consumable dataframe. In fact all ODI matches have already been converted and are available for use at <a href="https://github.com/tvganesh/yorkrData">yorkrData</a>. More details below.</p>
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>My package ‘yorkr’ is now available on CRAN. This package is based on data from <a href="http://cricsheet.org/">Cricsheet</a>. Cricsheet has the data of ODIs, Test, Twenty20 and IPL matches as yaml files. The yorkr package provides functions to convert the yaml files to more easily R consumable dataframe. In fact all ODI matches have already been converted and are available for use at <a href="https://github.com/tvganesh/yorkrData">yorkrData</a>. More details below.</p>
 <div id="first-things-first" class="section level3">
-<h3>First things first</h3>
+<h3>1. First things first</h3>
 <ol style="list-style-type: decimal">
 <li><p>yorkr currently has a total 63 functions as of now. I have intentionally avoided abbreviating function names by dropping vowels, as is usually done because the resulting abbreviated names created would be very difficult to remember and use. So instead of naming <em>tmBmenPrtshpOppnAllMtches()</em>, I have used the longer form <em>teamBatsmenPartnershipOppnAllmatches()</em>. The longer form will be more intuitive. Moreover RStudio prompts the the different functions which have the same prefix.</p></li>
 <li><p>There are 4 classes of function</p></li>
 </ol>
-<ol style="list-style-type: lower-alpha">
-<li>Team performances in a match</li>
-<li>Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)</li>
-<li>Team perfoamnce all matches against all Opposition d.Individual performance of batsmen or bowlers</li>
-</ol>
-<p>In this post I will be looking into the 1st class of functions, namely the performances of opposing teams in a single match The list of functions are</p>
+<p>Class 1- Team performances in a match Class 2- Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan) Class 3- Team performance in all matches against all Opposition (India vs All,Pakistan vs All etc) Class 4- Individual performances of batsmen and bowlers</p>
+<p>In this post I will be looking into the 1st class of functions, namely the performances of opposing teams in a single match</p>
+<p>The list of functions are</p>
 <ol style="list-style-type: lower-alpha">
 <li>teamBattingScorecardMatch()</li>
 <li>teamBatsmenPartnershipMatch()</li>
@@ -146,9 +145,15 @@ $(document).ready(function () {
 <li>teamBowlersVsBatsmenMatch()</li>
 <li>matchWormGraph()</li>
 </ol>
+</div>
+<div id="install-the-package-from-cran" class="section level3">
+<h3>2. Install the package from CRAN</h3>
 <pre class="r"><code>install.packages(&quot;yorkr_0.0.2.tar.gz&quot;,repos = NULL, type=&quot;source&quot;)
 library(yorkr)
 rm(list=ls())</code></pre>
+</div>
+<div id="convert-and-save-yaml-file-to-dataframe" class="section level3">
+<h3>3. Convert and save yaml file to dataframe</h3>
 <p>This function will convert a yaml file in the <a href="http://cricsheet.org/format/">format as specified in Cricsheet</a> to dataframe. This will be saved as as RData file in the target directtoy. The name of the file wil be <team1>-<team2>-<date>.RData. This is seen below.</p>
 <pre class="r"><code>convertYaml2RDataframe(&quot;225171.yaml&quot;,&quot;./source&quot;,&quot;./data&quot;)</code></pre>
 <pre><code>## [1] &quot;./source/225171.yaml&quot;
@@ -164,6 +169,9 @@ dir()</code></pre>
 ## [6] &quot;Pakistan-South Africa-2013-11-08.RData&quot;
 ## [7] &quot;Sri Lanka-West Indies-2011-02-06.RData&quot;</code></pre>
 <pre class="r"><code>setwd(&quot;..&quot;)</code></pre>
+</div>
+<div id="convert-and-save-all-yaml-files-to-dataframes" class="section level3">
+<h3>4. Convert and save all yaml files to dataframes</h3>
 <p>This function will convert all yaml files from source directory to a dataframe and save it in the target directory with the names as mentioned above. Alteady saved and available at ithub</p>
 <pre class="r"><code>convertAllYaml2RDataframes(&quot;./source&quot;,&quot;./data&quot;)</code></pre>
 <pre><code>## [1] 1
@@ -171,14 +179,23 @@ dir()</code></pre>
 ## [1] &quot;first loop&quot;
 ## [1] &quot;second loop&quot;
 ## [1] 633  25</code></pre>
-<p>Incidentally I have already conbveryted all yaml files in the ODI directory of Cricsheet to dataframes and savced then as RData. Out of 1167 files 34 yaml files had format problems. The rest pof the yaml files ave already been converted to RData and are available for use. All the converted RData files can be accessed from my Github link <a href="https://github.com/tvganesh/yorkrData">yorkrData</a></p>
-<p>You can download the the zip of the files and use it directly in the function as follows</p>
-<p><em>Note 1: The package in its current form is based on 50 over ODI macthes. The package will be enhanced to handle Twenty20 matches later</em></p>
+</div>
+<div id="yorkrdata---a-github-repositiory" class="section level3">
+<h3>5 yorkrData - A Github repositiory</h3>
+<p>Incidentally I have already converted all yaml files in the ODI directory of Cricsheet to dataframes and savced then as RData. Out of 1167 ODI files 34 yaml files had format problems. The rest of the yaml files ave already been converted to RData and are available for use. Cricsheet has ODI matches from 2006. All the converted RData files can be accessed from my Github link <a href="https://github.com/tvganesh/yorkrData">yorkrData</a> under the folder <a href="https://github.com/tvganesh/yorkrData/tree/master/ODI/ODI-matches">ODI-matches</a></p>
+<p>You can download the the zip of the files and use it directly in the functions as follows</p>
+<p><em>Note 1: The package in its current form is based on 50 over ODI macthes. The package will be enhanced to handle Tests, Twenty20,IPL matches later</em></p>
 <p><em>Note 2: The link to the converted data framesh have been provided above. The dataframes are around 600 rows x 25 columns. In this post I have created 10 functions that analyze team performances in a match. However you are free to slice and dice the dataframe in any way you like. If you do come up with interesting analyses please do attribute the source of the data to Cricsheet, and my package yorkr and my blog. Also do please do send me a note. It will be much appreciated.</em></p>
-<p>In this post I will using the functions from Class 1. For this post I will be using the match from 5 random matches between 10 different teams. For this I will directly use the converted RData rather than getting the data through the getMatchDetails()</p>
-<p>With the RData we can load the data in 2 ways 1) With getMatchDetails() using the 2 teams and the date on which the match occured</p>
-<pre class="r"><code>a &lt;- getMatchDetails(&quot;Australia&quot;,&quot;India&quot;,&quot;2012-02-12&quot;,dir=&quot;./data&quot;)</code></pre>
-<p>or 2) Directly load RData into your code. The match details will be loaded into a data frame called ‘overs’ which you can assign to a suitable name as below</p>
+</div>
+<div id="load-the-match-data-as-dataframes" class="section level3">
+<h3>6 Load the match data as dataframes</h3>
+<p>As mentioned above in this post I will using the functions from Class 1. For this post I will be using the match data from 5 random matches between 10 different opposing teams/countries. For this I will directly use the converted RData files rather than getting the data through the getMatchDetails()</p>
+<p>With the RData we can load the data in 2 ways</p>
+<ol style="list-style-type: decimal">
+<li>With getMatchDetails() using the 2 teams and the date on which the match occured</li>
+</ol>
+<pre class="r"><code>aus_ind &lt;- getMatchDetails(&quot;Australia&quot;,&quot;India&quot;,&quot;2012-02-12&quot;,dir=&quot;./data&quot;)</code></pre>
+<p>or 2) Directly load RData into your code. The match details will be loaded into a dataframe called <strong>’overs</strong>’ which you can assign to a suitable name as below</p>
 <pre class="r"><code>load(&quot;./data/Australia-India-2012-02-12.RData&quot;)
 aus_ind &lt;- overs
 load(&quot;./data/England-New Zealand-2007-01-30.RData&quot;)
@@ -190,8 +207,6 @@ sl_wi&lt;- overs
 load(&quot;./data/Bangladesh-Zimbabwe-2009-10-27.RData&quot;)
 ban_zim &lt;- overs</code></pre>
 </div>
-<div id="matches-from-2006" class="section level1">
-<h1>Matches from 2006</h1>
 </div>
 <div id="only-odis" class="section level1">
 <h1>Only ODIs</h1>

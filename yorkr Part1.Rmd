@@ -26,10 +26,10 @@ My package 'yorkr' is now available on CRAN. This package is based on data from 
 
 2. There are 4 classes of function
 
-Class 1- Team performances in a match
-Class 2- Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)
-Class 3- Team performance in all matches against all Opposition (India vs All,Pakistan vs All etc)
-Class 4- Individual performances of batsmen and bowlers
+* Class 1- Team performances in a match
+* Class 2- Team performances in all matches against a single oppostion (e.g. all matches of India vs Australia or England vs Pakistan)
+* Class 3- Team performance in all matches against all Opposition (India vs All,Pakistan vs All etc)
+* Class 4- Individual performances of batsmen and bowlers
 
 
 
@@ -75,8 +75,8 @@ This function will convert all yaml files from source directory to a dataframe a
 convertAllYaml2RDataframes("./source","./data")
 ```
 
-###5 yorkrData - A Github repositiory
-Incidentally I have already converted all yaml files in the ODI directory of Cricsheet to dataframes and savced then as RData. Out of 1167 ODI files 34 yaml files had format problems. The rest of the yaml files ave already been converted to RData and are available for use. Cricsheet has ODI matches from 2006. All the converted RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData) under the folder [ODI-matches](https://github.com/tvganesh/yorkrData/tree/master/ODI/ODI-matches)
+###5. yorkrData - A Github repositiory
+Cricsheet has ODI matches from 2006. There are a total of 1167 ODI matches(files) out of which 34 yaml files had format problems. Incidentally I have already converted all yaml files in the ODI directory of Cricsheet to dataframes and saved then as RData.  The rest of the yaml files ave already been converted to RData and are available for use. . All the converted RData files can be accessed from my Github link [yorkrData](https://github.com/tvganesh/yorkrData) under the folder [ODI-matches](https://github.com/tvganesh/yorkrData/tree/master/ODI/ODI-matches)
 
 You can download the the zip of the files and use it directly in the functions as follows
 
@@ -85,11 +85,13 @@ You can download the the zip of the files and use it directly in the functions a
 *Note 2: The link to the converted data framesh have been provided above. The dataframes are around 600 rows x 25 columns. In this post I have created 10 functions that analyze team performances in a match. However you are free to slice and dice the dataframe in any way you like. If you do come up with interesting analyses please do attribute the source of the data to Cricsheet, and my package yorkr and my blog. Also do please do send me a note. It will be much appreciated.* 
 
 
-###6 Load the match data as dataframes
+###6. Load the match data as dataframes
+
 As mentioned above in this post I will using the functions from Class 1. For this post  I will be using the match data  from 5 random matches between 10 different opposing teams/countries. For this I will directly use the converted RData files  rather than getting the data through the getMatchDetails()
 
 With the RData we can load the data in 2 ways 
 
+#### With getMatchDetails()
 1) With getMatchDetails() using the 2 teams and the date on which the 
 match occured
 ```{r}
@@ -100,6 +102,16 @@ or
 2) Directly load RData into your code. The match details will be loaded
 into a dataframe called **'overs**' which you can assign to a suitable name
 as below
+
+The matches randomly selected are
+
+* Australia vs India - 2012-02-12, Adelaide
+* England vs New Zealand - 2007-01-30, Perth
+* Pakistan vs South Africa - 2013-07-08, UAE
+* Sri Lanka vs West Indioes -2011-02-06, Colombo(SSC)
+* Bangladesh vs Zimbabwe -2009-10-27, Dhaka
+
+#### Directly load RData from file
 ```{r}
 load("./data/Australia-India-2012-02-12.RData")
 aus_ind <- overs
@@ -115,12 +127,8 @@ ban_zim <- overs
 ```
 
 
-
-# Only ODIs
-# Plot or display data frame. Plot by defau;lt
-```{r, echo=FALSE}
-a <- getMatchDetails("Australia","India","2012-02-12",dir="./data")
-```
+###7. Team batting scorecard
+Compute and display the batting scorecard of the teams in the match
 ```{r}
 teamBattingScorecardMatch(aus_ind,'India')
 teamBattingScorecardMatch(aus_ind,'Australia')
@@ -129,10 +137,11 @@ teamBattingScorecardMatch(sl_wi,'Sri Lanka')
 ```
 
 
-**Note**: Many of the plots include an additional parameters plot which is either TRUE or FALSE. When plot=TRUE the plot will be displayted. When Plot=FALSE the data frame will be returned to the user
-The user can use this to create an interactive chary using one of th epackages like rcharts, ggvis,googleVis ot plotly
+###8.  Plot the team batting partnerships
+The functions below plot the team batting partnetship in the match
+**Note**: Many of the plots include an additional parameters plot which is either TRUE or FALSE. The default value is plot=TRUE. When plot=TRUE the plot will be displayed. When plot=FALSE the data frame will be returned to the user. The user can use this to create an interactive chary using one of th epackages like rcharts, ggvis,googleVis or plotly. 
 
-```{r}
+```{r batsmenPartnership}
 teamBatsmenPartnershipMatch(pak_sa,"Pakistan")
 teamBatsmenPartnershipMatch(eng_nz,"New Zealand",plot=TRUE)
 m <-teamBatsmenPartnershipMatch(ban_zim,"Bangladesh",plot=FALSE)
@@ -140,7 +149,9 @@ m
 teamBatsmenPartnershipMatch(aus_ind,"India",plot=TRUE)
 ```
 
-```{r}
+###9. Batsmen vs Bowler 
+The function below computes and plots the performances of the batsmen vs the bowlers. As before the plot parameter can be set to TRUE or FALSE. By default it is plot=TRUE
+```{r batsmenVsBowler}
 teamBatsmenVsBowlersMatch(pak_sa,'Pakistan',plot=TRUE)
 teamBatsmenVsBowlersMatch(aus_ind,'Australia',plot=TRUE)
 
@@ -149,14 +160,18 @@ m <- teamBatsmenVsBowlersMatch(sl_wi,'West Indies',plot=FALSE)
 m
 ```
 
-
+###10. Bowling Scorecard 
+This function provides the bowling performance, the number of overs bowled,
+maidens, runs conceded and wickets taken for each match
 ```{r}
 teamBowlingScorecardMatch(eng_nz,'England')
 teamBowlingScorecardMatch(eng_nz,'New Zealand')
 teamBowlingScorecardMatch(aus_ind,'Australia')
 ```
 
-```{r}
+###11. Wicket Kind
+The plots below provide the bowling kind of wicket taken by the bowler (caught, bowled, lbw etc.)
+```{r bowlingWicketKind}
 teamBowlingWicketKindMatch(aus_ind,"India")
 teamBowlingWicketKindMatch(aus_ind,"Australia")
 teamBowlingWicketKindMatch(pak_sa,"South Africa")
@@ -164,23 +179,30 @@ m <-teamBowlingWicketKindMatch(sl_wi,"Sri Lanka",plot=FALSE)
 m
 ```
 
-```{r}
+###12. wicket vs Runs conceded
+The plots below provide the wickets taken and the runs conceded by the bowler in the match
+```{r wicketRuns}
 teamBowlingWicketRunsMatch(pak_sa,"Pakistan")
 teamBowlingWicketRunsMatch(aus_ind,"Australia")
 m <-teamBowlingWicketRunsMatch(sl_wi,"West Indies",plot=FALSE)
 m
 ```
 
-```{r}
+###13. Wickets taken by bowler
+The plots provide the wickets taken by the bowler
+
+```{r bowlingWickets}
 m <-teamBowlingWicketMatch(eng_nz,'England',plot=FALSE)
 m
-
 teamBowlingWicketMatch(sl_wi,"Sri Lanka")
 teamBowlingWicketMatch(eng_nz,"New Zealan")
 ```
 
 
-```{r}
+###14. Bowler Vs Batsmen
+The functions compute and display how the different bowlers of the country performed against the batting opposition.
+
+```{r bowlerVsBatsmen}
 teamBowlersVsBatsmenMatch(ban_zim,"Bangladesh")
 teamBowlersVsBatsmenMatch(aus_ind,"India")
 teamBowlersVsBatsmenMatch(eng_nz,"England")
@@ -188,7 +210,10 @@ m <- teamBowlersVsBatsmenMatch(pak_sa,"Pakistan",plot=FALSE)
 m
 ```
 
-```{r}
+
+###15. Match worm graph
+The plots below provide the match worm graph for the matches
+```{r matchWorm}
 matchWormGraph(aus_ind,'Australia',"India")
 matchWormGraph(sl_wi,'Sri Lanka',"West Indies")
 
